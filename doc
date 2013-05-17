@@ -1,0 +1,19 @@
+A symbol is a set of layers
+
+A layer is a set of frames
+    some frames are keyframes
+    only keyframes are defined with frame() objects
+    there is a list of which frames are keyframes for optimization
+    and an index to which keyframe is currently being used
+
+A frame has a source (an image, a drawing, or another symbol) and instructions for how to draw it.
+    drawing options include:
+        -relative coordinates of drawing anchor
+        -x and y coordinates of anchor on screen
+        -x and y scaling
+        -rotation
+        -x and y skew
+        
+    And for symbols:
+        -Starting frame
+        -Single Frame, Play Once, or Loop (0, 1, 2)
