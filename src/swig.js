@@ -2,6 +2,46 @@
 
 //Just Andrew Dutcher fooling around, trying to see if he can expend zero effort at all and come up with a viable replacement for flash animation on the web using the HTML5 stack.
 
+
+window.onload = function () {
+	var deploy = document.getElementById('swig-deploy');
+	if (!deploy) {
+		console.log('No deployment pad. Canceling.');
+		return;
+	}
+	if (typeof data == 'object') {
+	
+	} else {
+		prompt();
+	}
+};
+
+function stuff() {
+    sym = loadSymbolFromTree(data);
+    area = new workArea({left:300,top:300,width:650,height:450}, {}, deploy);
+    run(sym,area);
+    document.body.style.backgroundColor = 'grey';
+};
+
+function clearState() {
+	data = false;
+	instances = {};
+	kill();
+	var dep = document.getElementById('swig-deploy');
+	if (dep) {
+		dep.innerHTML = '';
+	}
+	window.onload();
+}
+
+function prompt () {
+	document.getElementById('swig-deploy').innerHTML = '<input type="file" id="swigfile" /> <input type="button" value="Use" onclick="loadswigfile"/>';
+}
+
+function loadswigfile() {
+	var file = document.getElementById('swigfile').files[0];
+}
+
 var frameprops = {
     source: {required: true},
     frame: {required: true},
@@ -70,6 +110,16 @@ function getSource(name) {
     }
 }
 
+var instances = {};
+
+var killcode = -1;
+
+function kill() {
+	if (killcode >= 0) {
+		clearInterval(killcode);
+		killcode = -1;
+	}
+}
 
 function run(symbol, dest) {
     var lastDrawn = -1;
@@ -80,7 +130,7 @@ function run(symbol, dest) {
             lastDrawn = symbol.currentFrame;
         }
     }
-    setInterval(function () {
+    killcode = setInterval(function () {
         symbol.nextFrame();
         requestAnimationFrame(drawRun);
     },Math.ceil(1000/data.fps));
@@ -88,132 +138,3 @@ function run(symbol, dest) {
 }
 
 
-var data = {
-    fps: 30,
-    layers: [
-        {
-            length: 120,
-            keyframes: [
-                {
-                    frame: 0,
-                    source: 'suns',
-                    x: 325,
-                    y: 325,
-                    subSymPlay: 2,
-                    subSymStartFrame: 30,
-                    anchorX: 325,
-                    anchorY: 225,
-                    rot: 0,
-                    animated: true
-                },
-                {
-                    frame: 119,
-                    source: 'suns',
-                    x: 325,
-                    y: 325,
-                    subSymPlay: 2,
-                    subSymStartFrame: 29,
-                    anchorX: 325,
-                    anchorY: 225,
-                    rot: 30
-                }
-            ]
-        }
-    ]
-};
-
-var resources = {
-    sun: {
-        id: 'img1'
-    },
-    suns: {
-        sym: {
-            layers: [
-                {
-                    length: 120,
-                    keyframes: [
-                        {
-                            frame: 0,
-                            source: 'sun',
-                            x: 0,
-                            y: 0,
-                            animated: true,
-                            animationEase: 1,
-                            anchorX: 128,
-                            anchorY: 128
-                        },
-                        {
-                            frame: 24,
-                            source: 'sun',
-                            x: 197,
-                            y: 97,
-                            animated: true,
-                            animationEase: -1,
-                            alpha: 0.5,
-                            rot: 45,
-                            anchorX: 128,
-                            anchorY: 128
-                        },
-                        {
-                            frame: 48,
-                            source: 'sun',
-                            x: 394,
-                            y: 194,
-                            rot: 90,
-                            anchorX: 128,
-                            anchorY: 128
-                        },
-                        {
-                            frame: 60,
-                            source: 'sun',
-                            x: 394,
-                            y: 194,
-                            animated: true,
-                            animationEase: 1,
-                            rot: 90,
-                            anchorX: 128,
-                            anchorY: 128
-                        },
-                        {
-                            frame: 84,
-                            source: 'sun',
-                            x: 197,
-                            y: 97,
-                            animated: true,
-                            animationEase: -1,
-                            alpha: 0.25,
-                            rot: 45,
-                            anchorX: 128,
-                            anchorY: 128
-                        },
-                        {
-                            frame: 108,
-                            source: 'sun',
-                            x: 0,
-                            y: 0,
-                            anchorX: 128,
-                            anchorY: 128
-                        }
-                    ]
-                },
-                {
-                    length: 60,
-                    keyframes: [
-                        {
-                            frame: 0,
-                            source: 'sun',
-                            x: 200,
-                            y: 180
-                        }
-                    ]
-                }
-            ]}
-        }
-};
-
-window.onload = function () {
-    sym = loadSymbolFromTree(data);
-    area = new workArea({left:300,top:300,width:650,height:450});
-    run(sym,area);
-    document.body.style.backgroundColor = 'grey';
-};
