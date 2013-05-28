@@ -9,6 +9,7 @@ function layer(keyframes, length) {
 	this.length = length;
 	for (var i = 0; i < keyframes.length; i++) {
 	    this.frames[keyframes[i].options.frame] = i;
+	    this.keyframes[i].parentLayer = this;
 	}
 	var last;
 	for (var i = 0; i < length; i++) {
@@ -21,27 +22,25 @@ function layer(keyframes, length) {
 }
 
 layer.prototype.getCurrentKeyframe = function () {
-    return this.keyframes[this.frames[this.currentFrame]];
+    return this.currentFrame < this.frames.length ? this.keyframes[this.frames[this.currentFrame]] : new frame();
 };
 
 layer.prototype.seek = function (frameNumber) {
-	if (frameNumber == this.currentFrame) {
-		return frameNumber;
-	} else if (frameNumber == 0) {
-		this.currentFrame = 0;
-		return 0;
-	} else if (frameNumber >= this.length) {
-		this.currentFrame = this.length - 1;
-		return this.currentFrame;
-	} else {
-		this.currentFrame = frameNumber;
-		return frameNumber;
-	}
+    this.goto(frameNumber);
+    
 };
 
 layer.prototype.nextFrame = function () {
-	return this.seek(this.currentFrame+1);
+	this.goto(this.currentFrame + 1);
 };
+
+layer.prototype.goto = function (frameNumber) {
+	this.currentFrame = frameNumber;
+	var key = this.getCurrentKeyframe();
+	if (key.type == 'symbol') {
+	    key.source.seek(calcSymbolFrame(key, frameNumber));
+	}
+}
 
 layer.prototype.draw = function (dest) {
     var key = this.getCurrentKeyframe();
@@ -55,3 +54,21 @@ layer.prototype.draw = function (dest) {
         this.getCurrentKeyframe().draw(dest);
     }
 };
+
+function calcSymbolFrame(containingKeyframe, currentFrame) {
+    switch (containingKeyframe.options.subSymPlay) {
+        case 0:             //single frame
+        return containingKeyframe.options.subSymStartFrame;
+        case 1:             //play once
+        var frm = currentFrame - containingKeyframe.options.frame + containingKeyframe.options.subSymStartFrame;
+        if (frm >= containingKeyframe.source.length) {
+            frm = containingKeyframe.source.length - 1;
+        }
+        return frm;
+        case 2:             //loop
+        return (currentFrame - containingKeyframe.options.frame + containingKeyframe.options.subSymStartFrame) % containingKeyframe.source.length;
+        case 3:             //independant run (..?)
+        containingKeyframe.source.nextFrame();
+        return containingKeyframe.source.currentFrame;
+    }
+}

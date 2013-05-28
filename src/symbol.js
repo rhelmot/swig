@@ -2,14 +2,19 @@ function symbol(layers) {
 	this.layers = layers;
 	this.length = 0;
 	for (var i = 0; i < layers.length; i++) {
+	    this.layers[i].parentSymbol = this;
         if (layers[i].length > this.length) {
             this.length = layers[i].length;
         }
     }
     this.currentFrame = 0;
+    this.playing = true;
 }
 
 symbol.prototype.seek = function (frame) {
+    if (frame == this.currentFrame) {
+        return frame;
+    }
     if (frame >= this.maxFrames) {
         frame = this.maxFrames - 1;
     }
@@ -33,7 +38,7 @@ symbol.prototype.nextFrame = function () {
 };
 
 symbol.prototype.draw = function (dest) {
-	for (var i = 0; i < this.layers.length; i++) {
+	for (var i = this.layers.length - 1; i >= 0; i--) {
         this.layers[i].draw(dest);
     }
 };
