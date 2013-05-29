@@ -37,7 +37,7 @@ layer.prototype.nextFrame = function () {
 layer.prototype.goto = function (frameNumber) {
 	this.currentFrame = frameNumber;
 	var key = this.getCurrentKeyframe();
-	if (key.type == 'symbol') {
+	if (key.type == 'symbol' && !key.options.subSymInstance) {
 	    key.source.seek(calcSymbolFrame(key, frameNumber));
 	}
 }
@@ -67,8 +67,5 @@ function calcSymbolFrame(containingKeyframe, currentFrame) {
         return frm;
         case 2:             //loop
         return (currentFrame - containingKeyframe.options.frame + containingKeyframe.options.subSymStartFrame) % containingKeyframe.source.length;
-        case 3:             //independant run (..?)
-        containingKeyframe.source.nextFrame();
-        return containingKeyframe.source.currentFrame;
     }
 }
