@@ -63,7 +63,19 @@ function resolveLibrary() {
                 }(data.library[i]));
             } else if (!data.library[i].loaded && data.library[i].image) {
                 innerImgDone = false;
-            }
+            } else if (typeof data.library[i].audio == 'string') {
+				var aud = document.createElement('audio');
+                aud.src = data.library[i].audio;
+                data.library[i].audio = aud;
+                (function (libEntry) {                          //closures heck yeah!
+                    libEntry.audio.addEventListener('canplaythrough', function () {		//duplicate code HECK YEAH!!
+                        libEntry.loaded = true;
+                        resolveLibrary();
+                    }, false);
+                }(data.library[i]));
+			} else if (!data.library[i].loaded && data.library[i].audio) {
+				innerImgDone = false;
+			}
         }
         imgdone = innerImgDone;
     }
@@ -101,8 +113,15 @@ function loadSymbolFromTree(tree) {
 }
 
 function getSource(keyframe) {
+	if (keyframe.options.audio) {
+		if (data.library[keyframe.options.audio] && data.library[keyframe.options.audio].audio) {
+			keyframe.options.audio = data.library[keyframe.options.audio].audio;
+		} else {
+			console.log('Bad audio call '+keyframe.options.audio);
+		}
+	}
     if (typeof keyframe.source != 'string') {
-        console.log('Bad source: '+keyframe.source.toString());
+        console.log('Bad source '+keyframe.source.toString());
         return undefined;
     } else if (keyframe.source == '_empty') {
         return undefined;
@@ -123,7 +142,7 @@ function getSource(keyframe) {
                 return res.common;
             }
         } else {
-            console.log('Bad resource call: '+keyframe.source);
+            console.log('Bad resource call '+keyframe.source);
             return undefined;
         }
     }

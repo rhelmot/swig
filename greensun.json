@@ -4,6 +4,9 @@
 		"sun": {
 			"image": "greensun/sun.jpg"
 		},
+		"fip": {
+			"audio": "greensun/fip.mp3"
+		},
 		"suns": {
 			"sym": {
 				"layers": [
@@ -76,6 +79,14 @@
 					},
 					{
 						"length": 60,
+						"audio": [
+							{
+								"elem": "fip",
+								"start": 0,
+								"end": 200,
+								"sync": true
+							}
+						]
 						"keyframes": [
 							{
 								"frame": 0,
@@ -91,29 +102,30 @@
 	},
     "layers": [
         {
-            "length": 50,
+            "length": 300,
             "keyframes": [
                 {
                     "frame": 0,
                     "source": "suns",
                     "x": 325,
                     "y": 325,
-                    "subSymPlay": 2,
+                    "subSymInstance": "suns_mc",
                     "anchorX": 325,
                     "anchorY": 225,
                     "rot": 0,
                     "animated": true
                 },
                 {
-                    "frame": 49,
+                    "frame": 200,
                     "source": "suns",
                     "x": 325,
                     "y": 325,
-                    "subSymPlay": 2,
+                    "subSymInstance": "suns_mc",
                     "anchorX": 325,
                     "anchorY": 225,
                     "rot": 30
-                }
+                },
+				
             ]
         }
     ]
