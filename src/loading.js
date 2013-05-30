@@ -61,6 +61,7 @@ function resolveLibrary() {
                         resolveLibrary();
                     }
                 }(data.library[i]));
+				innerImgDone = false;
             } else if (!data.library[i].loaded && data.library[i].image) {
                 innerImgDone = false;
             } else if (typeof data.library[i].audio == 'string') {
@@ -73,6 +74,7 @@ function resolveLibrary() {
                         resolveLibrary();
                     }, false);
                 }(data.library[i]));
+				innerImgDone = false;
 			} else if (!data.library[i].loaded && data.library[i].audio) {
 				innerImgDone = false;
 			}

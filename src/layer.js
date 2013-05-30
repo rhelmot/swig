@@ -39,13 +39,6 @@ layer.prototype.goto = function (frameNumber) {
 	if (key.type == 'symbol' && !key.options.subSymInstance) {
 	    key.source.seek(calcSymbolFrame(key, frameNumber));
 	}
-	
-    if (key.options.frame == frameNumber && key.options.audio) {
-		key.options.audio.currentTime = 0;
-		key.options.audio.play();
-	} else if (key.options.audioSync) {
-		this.parentSymbol.audioSync = {audio: key.options.audio, frameStart: key.options.frame, frameEnd: Math.min(key.options.frame + key.options.audio.duration, this.keyframes[this.frames[this.currentFrame]+1].options.frame)};
-	}
 }
 
 layer.prototype.draw = function (dest) {
