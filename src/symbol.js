@@ -1,5 +1,6 @@
-function symbol(layers) {
+function symbol(layers, audios) {
 	this.layers = layers;
+	this.audios = audios;
 	this.length = 0;
 	for (var i = 0; i < layers.length; i++) {
 	    this.layers[i].parentSymbol = this;
@@ -7,7 +8,7 @@ function symbol(layers) {
             this.length = layers[i].length;
         }
     }
-    this.currentFrame = 0;
+    this.currentFrame = -1;
     this.playing = true;
 }
 
@@ -34,6 +35,12 @@ symbol.prototype.nextFrame = function () {
             this.layers[i].nextFrame();
         }
         this.currentFrame++;
+    }
+    for (var i = 0; i < this.audios.length; i++) {
+        if (this.currentFrame == this.audios[i].start) {
+            this.audios[i].elem.currentTime = 0;
+            this.audios[i].elem.play();
+        }
     }
 };
 

@@ -109,17 +109,20 @@ function loadSymbolFromTree(tree) {
         }
         layers[layers.length] = new layer(frames, tree.layers[i].length);
     }
-    return new symbol(layers);
+    if (!tree.audio) {
+        tree.audio = [];
+    }
+    for (var i = 0; i < tree.audio.length; i++) {
+        if (tree.audio[i].elem) {
+			tree.audio[i].elem = data.library[tree.audio[i].elem].audio;
+		} else {
+			console.log('Bad audio call '+tree.audio[i].elem.toString());
+		}
+    }
+    return new symbol(layers, tree.audio);
 }
 
 function getSource(keyframe) {
-	if (keyframe.options.audio) {
-		if (data.library[keyframe.options.audio] && data.library[keyframe.options.audio].audio) {
-			keyframe.options.audio = data.library[keyframe.options.audio].audio;
-		} else {
-			console.log('Bad audio call '+keyframe.options.audio);
-		}
-	}
     if (typeof keyframe.source != 'string') {
         console.log('Bad source '+keyframe.source.toString());
         return undefined;

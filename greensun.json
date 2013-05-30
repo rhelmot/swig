@@ -79,14 +79,6 @@
 					},
 					{
 						"length": 60,
-						"audio": [
-							{
-								"elem": "fip",
-								"start": 0,
-								"end": 200,
-								"sync": true
-							}
-						]
 						"keyframes": [
 							{
 								"frame": 0,
@@ -124,9 +116,16 @@
                     "anchorX": 325,
                     "anchorY": 225,
                     "rot": 30
-                },
-				
+                }				
             ]
         }
-    ]
+    ],
+	"audio": [
+		{
+			"elem": "fip",
+			"start": 0,
+			"end": 200,
+			"sync": true
+		}
+	]
 }
