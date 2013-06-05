@@ -36,7 +36,7 @@ function loadswigfile() {
     	            data.instances = {};
     	            var deploy = document.getElementById('swig-deploy');
     	            deploy.innerHTML = '';
-                    area = new workArea({left:300,top:300,width:650,height:450}, {}, deploy);
+                    area = new workArea({width:data.width,height:data.height}, {}, deploy);
     	            resolveLibrary();
     	        }
     	    }

@@ -1,5 +1,5 @@
 function layer(keyframes, length) {
-	this.currentFrame = 0;
+	this.currentFrame = -1;
 	this.frames = [];
 	if (keyframes[0].options.frame != 0) {
 	    console.log('Can\'t process layer: first keyframe not first frame');

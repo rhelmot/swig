@@ -23,8 +23,40 @@ symbol.prototype.seek = function (frame) {
         this.layers[i].seek(frame);
     }
     this.currentFrame = frame;
+	for (var i = 0; i < this.audios.length; i++) {
+		processAudio(this.audios[i], this.currentFrame, true);
+    }
     return frame;
 };
+
+function processAudio(audio, frame, seeking) {
+	if (audio.sync) {
+		if (frame < audio.start || frame >= audio.end) {
+			if (!audio.elem.paused) {
+				audio.elem.pause();
+			}
+		} else {
+			if (seeking || audio.elem.paused) {
+				audio.elem.currentTime = (frame - audio.start) / data.fps;
+				audio.elem.play();
+			} else {
+				var shouldBe = Math.floor((audio.elem.currentTime * data.fps) + audio.start);
+				if (!(shouldBe == frame || shouldBe + 1 == frame || shouldBe - 1 || frame)) {
+					for (var i = 0; i < this.layers.length; i++) {
+						this.layers[i].seek(shouldBe);
+					}
+				}
+			}
+		}
+	} else {
+		if (frame == audio.start) {
+			audio.elem.currentTime = 0;
+			audio.elem.play();
+		} else if (!audio.elem.paused && (frame < audio.start || frame >= audio.end)) {
+			audio.elem.pause();
+		}
+	}
+}
 
 symbol.prototype.nextFrame = function () {
     if (this.currentFrame + 1 >= this.length) {
@@ -37,10 +69,7 @@ symbol.prototype.nextFrame = function () {
         this.currentFrame++;
     }
     for (var i = 0; i < this.audios.length; i++) {
-        if (this.currentFrame == this.audios[i].start) {
-            this.audios[i].elem.currentTime = 0;
-            this.audios[i].elem.play();
-        }
+        processAudio(this.audios[i], this.currentFrame, false);
     }
 };
 

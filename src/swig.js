@@ -56,7 +56,7 @@ function run(symbol, dest) {
         }
         requestAnimationFrame(drawRun);
     },Math.ceil(1000/data.fps));
-    drawRun();
+    //drawRun();		//don't draw before we run since we init everything at frame -1
 }
 
 
