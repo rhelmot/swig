@@ -12,6 +12,31 @@ function symbol(layers, audios) {
     this.playing = true;
 }
 
+symbol.prototype.pause = function () {
+    this.playing = false;
+    for (var i = 0; i < this.audios.length; i++) {
+        if (this.audios[i].sync && this.currentFrame >= this.audios[i].start && this.currentFrame < this.audios[i].end) {
+            this.audios[i].elem.pause();
+        }
+    }
+};
+
+symbol.prototype.play = function () {
+    this.playing = true;
+    for (var i = 0; i < this.audios.length; i++) {
+        if (this.audios[i].sync && this.currentFrame >= this.audios[i].start && this.currentFrame < this.audios[i].end) {
+            this.audios[i].elem.play();
+        }
+    }
+};
+
+symbol.prototype.goto = function (frame) {                              //do not use clientside-- very dangerous unless properly checked!
+    this.currentFrame = frame;
+	for (var i = 0; i < this.layers.length; i++) {
+		this.layers[i].goto(frame);
+    }
+};
+
 symbol.prototype.seek = function (frame) {
     if (frame == this.currentFrame) {
         return frame;
@@ -19,17 +44,14 @@ symbol.prototype.seek = function (frame) {
     if (frame >= this.maxFrames) {
         frame = this.maxFrames - 1;
     }
-    for (var i = 0; i < this.layers.length; i++) {
-        this.layers[i].seek(frame);
-    }
-    this.currentFrame = frame;
-	for (var i = 0; i < this.audios.length; i++) {
-		processAudio(this.audios[i], this.currentFrame, true);
+    this.goto(frame);
+    for (var i = 0; i < this.audios.length; i++) {
+        this.processAudio(this.audios[i], this.currentFrame, true);
     }
     return frame;
 };
 
-function processAudio(audio, frame, seeking) {
+symbol.prototype.processAudio = function (audio, frame, seeking) {
 	if (audio.sync) {
 		if (frame < audio.start || frame >= audio.end) {
 			if (!audio.elem.paused) {
@@ -41,10 +63,8 @@ function processAudio(audio, frame, seeking) {
 				audio.elem.play();
 			} else {
 				var shouldBe = Math.floor((audio.elem.currentTime * data.fps) + audio.start);
-				if (!(shouldBe == frame || shouldBe + 1 == frame || shouldBe - 1 || frame)) {
-					for (var i = 0; i < this.layers.length; i++) {
-						this.layers[i].seek(shouldBe);
-					}
+				if (!(shouldBe == frame || shouldBe + 1 == frame || shouldBe - 1 == frame)) {
+					this.goto(shouldBe);
 				}
 			}
 		}
@@ -56,20 +76,17 @@ function processAudio(audio, frame, seeking) {
 			audio.elem.pause();
 		}
 	}
-}
+};
 
 symbol.prototype.nextFrame = function () {
     if (this.currentFrame + 1 >= this.length) {
         this.seek(0);
         return;
     } else { 
-        for (var i = 0; i < this.layers.length; i++) {
-            this.layers[i].nextFrame();
-        }
-        this.currentFrame++;
+        this.goto(this.currentFrame + 1);
     }
     for (var i = 0; i < this.audios.length; i++) {
-        processAudio(this.audios[i], this.currentFrame, false);
+        this.processAudio(this.audios[i], this.currentFrame, false);
     }
 };
 
