@@ -1,8 +1,10 @@
 function frame(source, options) {
+	if (typeof options == 'undefined') {
+		options = {};
+	}
     this.options = options;
 	if (typeof source == 'undefined') {
 		this.type = 'empty';
-		this.options = {};
 	} else if (source instanceof HTMLImageElement) {
 		this.type = 'image';
 		this.source = source;

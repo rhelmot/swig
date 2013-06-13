@@ -50,7 +50,7 @@ layer.prototype.draw = function (dest) {
         }
         key.animateTo(this.keyframes[this.frames[this.currentFrame]+1], fraction).draw(dest);
     } else {
-        this.getCurrentKeyframe().draw(dest);
+        key.draw(dest);
     }
 };
 

@@ -31,7 +31,7 @@ function loadswigfile() {
 	    var fr = new FileReader();
 	    fr.onloadend = function () {
 	        if (fr.readyState == 2) {
-    	        data = JSON.parse(fr.result);
+    	        eval('data = '+fr.result);
     	        if (data) {
     	            data.instances = {};
     	            var deploy = document.getElementById('swig-deploy');
@@ -94,13 +94,14 @@ function loadSymbolFromTree(tree) {
         for (var j = 0; j < tree.layers[i].keyframes.length; j++) {        //loop frames
             var key = tree.layers[i].keyframes[j];
             for (var k in frameprops) {
+				var whoami = 'symbol '+tree.name+'layer '+(i+1)+' keyframe '+(j+1)+' ';
                 if (frameprops[k].required && (typeof key[k] == 'undefined')) {
-                    console.log('layer '+(i+1)+' keyframe '+(j+1)+' missing required attribute '+k);
+                    console.log(whoami + 'missing required attribute '+k);
                     continue;
                 } else if (typeof key[k] == 'undefined') {
                     key[k] = frameprops[k].default;
                 } else if ((frameprops[k].lowBound && key[k] < frameprops[k].lowBound) || (frameprops[k].highBoundkey && [k] > frameprops[k].highBound)) {
-                    console.log('frame attribute '+k+' out of bounds');
+                    console.log(whoami+'attribute '+k+' out of bounds');
                     key[k] = frameprops[k].default;
                 }
                 if (frameprops[k].integer) {
