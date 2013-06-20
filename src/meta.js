@@ -18,7 +18,7 @@ var metaLoadCallback;
 ///Can be called more than once, but callbacks will be overwritten.
 ///////////
 
-metaLoad(['swig.js', 'utils.js', 'workArea.js', 'symbol.js', 'layer.js', 'frame.js', 'compatibility.js', 'loading.js'], 'src');
+metaLoad(['swig.js', 'workArea.js', 'symbol.js', 'layer.js', 'frame.js', 'compatibility.js', 'loading.js'], 'src');
 
 ///////////
 ///END APPLICATION-SPECIFIC CALLS

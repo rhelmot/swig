@@ -1,0 +1,702 @@
+{
+	"name": "main",
+	"fps": 30,
+	"width": 650,
+	"height": 450,
+	"library": {
+		gradient: {
+			image: 'ts-charsel/gradient.png'
+		},
+		"aus-reg": {
+			"image": "ts-charsel/aus-reg.png"
+		},
+		"aus-over": {
+			"image": "ts-charsel/aus-over.png"
+		},
+		"aus-down": {
+			"image": "ts-charsel/aus-down.png"
+		},
+		"can-reg": {
+			"image": "ts-charsel/can-reg.png"
+		},
+		"can-over": {
+			"image": "ts-charsel/can-over.png"
+		},
+		"can-down": {
+			"image": "ts-charsel/can-down.png"
+		},
+		"map": {
+			"image": "ts-charsel/worldmap.png"
+		},
+		"dot-red": {
+			"image": "ts-charsel/dot-red.png"
+		},
+		"ring-red": {
+			"image": "ts-charsel/ring-red.png"
+		},
+		"dot-gold": {
+			"image": "ts-charsel/dot-gold.png"
+		},
+		"ring-gold": {
+			"image": "ts-charsel/ring-gold.png"
+		},
+		"dot-blue": {
+			"image": "ts-charsel/dot-blue.png"
+		},
+		"ring-blue": {
+			"image": "ts-charsel/ring-blue.png"
+		},
+		"dot-purple": {
+			"image": "ts-charsel/dot-purple.png"
+		},
+		"ring-purple": {
+			"image": "ts-charsel/ring-purple.png"
+		},
+		"marker-red_mc": {
+			"sym": {
+				"name": "marker-red_mc",
+				"layers": [
+					{
+						"length":26 ,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "dot-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 5,
+								"anchorY": 5
+							}
+						]
+					},
+					{
+						"length": 16,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "ring-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 9,
+								"source": "ring-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 15,
+								"source": "ring-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					},
+					{
+						"length": 26,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "_empty",
+								"x": 0,
+								"y": 0
+							},
+							{
+								"frame": 10,
+								"source": "ring-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 19,
+								"source": "ring-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 25,
+								"source": "ring-red",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					}
+				]
+			}
+		},
+		"marker-gold_mc": {
+			"sym": {
+				"name": "marker-gold_mc",
+				"layers": [
+					{
+						"length":26 ,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "dot-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 5,
+								"anchorY": 5
+							}
+						]
+					},
+					{
+						"length": 16,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "ring-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 9,
+								"source": "ring-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 15,
+								"source": "ring-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					},
+					{
+						"length": 26,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "_empty",
+								"x": 0,
+								"y": 0
+							},
+							{
+								"frame": 10,
+								"source": "ring-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 19,
+								"source": "ring-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 25,
+								"source": "ring-gold",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					}
+				]
+			}
+		},
+		"marker-purple_mc": {
+			"sym": {
+				"name": "marker-purple_mc",
+				"layers": [
+					{
+						"length":26 ,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "dot-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 5,
+								"anchorY": 5
+							}
+						]
+					},
+					{
+						"length": 16,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "ring-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 9,
+								"source": "ring-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 15,
+								"source": "ring-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					},
+					{
+						"length": 26,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "_empty",
+								"x": 0,
+								"y": 0
+							},
+							{
+								"frame": 10,
+								"source": "ring-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 19,
+								"source": "ring-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 25,
+								"source": "ring-purple",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					}
+				]
+			}
+		},
+		"marker-blue_mc": {
+			"sym": {
+				"name": "marker-blue_mc",
+				"layers": [
+					{
+						"length":26 ,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "dot-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 5,
+								"anchorY": 5
+							}
+						]
+					},
+					{
+						"length": 16,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "ring-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 9,
+								"source": "ring-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 15,
+								"source": "ring-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					},
+					{
+						"length": 26,
+						"keyframes": [
+							{
+								"frame": 0,
+								"source": "_empty",
+								"x": 0,
+								"y": 0
+							},
+							{
+								"frame": 10,
+								"source": "ring-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 0.2,
+								"scaleY": 0.2,
+								"animated": true
+							},
+							{
+								"frame": 19,
+								"source": "ring-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 1,
+								"scaleX": 0.8,
+								"scaleY": 0.8,
+								"animated": true
+							},
+							{
+								"frame": 25,
+								"source": "ring-blue",
+								"x": 0,
+								"y": 0,
+								"anchorX": 15,
+								"anchorY": 15,
+								"alpha": 0,
+								"scaleX": 1,
+								"scaleY": 1
+							}
+						]
+					}
+				]
+			}
+		},
+		"map_mc": {
+			"sym": {
+				"layers": [
+					{
+						"length": 1,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 1311,
+								"y": 641,
+								"source": "marker-blue_mc",
+								"subSymInstance": "mblue_mc"
+							}
+						]
+					},
+					{
+						"length": 1,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 1316,
+								"y": 637,
+								"source": "marker-purple_mc",
+								"subSymInstance": "mpurple_mc"
+							}
+						]
+					},
+					{
+						"length": 1,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 258,
+								"y": 359,
+								"source": "marker-red_mc",
+								"subSymInstance": "mred_mc"
+							}
+						]
+					},
+					{
+						"length": 1,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 250,
+								"y": 363,
+								"source": "marker-gold_mc",
+								"subSymInstance": "mgold_mc"
+							}
+						]
+					},
+					{
+						"length": 1,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 0,
+								"y": 0,
+								"source": "map"
+							}
+						]
+					}
+				]
+			}
+		},
+		"aus-btn": {
+			"sym": {
+				"layers": [
+					{
+						"length": 3,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 0,
+								"y": 0,
+								"source": "aus-reg",
+								code: function (s) {
+									s.pause();
+								}
+							},
+							{
+								"frame": 1,
+								"x": 0,
+								"y": 0,
+								"source": "aus-over"
+							},
+							{
+								"frame": 2,
+								"x": 0,
+								"y": 0,
+								"source": "aus-down"
+							}
+						]
+					}
+				],
+				bounds: new Rectangle(300, 190),
+				callbacks: {
+					mouseMove: function (e, s) {
+						if (s.isMouseDown) {
+							s.seek(2);
+						} else {
+							s.seek(1)
+						}
+						s.parentFrame.parentLayer.parentSymbol.layers[2].keyframes[0].options.x = 0;
+						s.parentFrame.parentLayer.parentSymbol.layers[2].keyframes[0].options.y = 0;
+					},
+					mouseDown: function (e, s) {
+						s.seek(2);
+					},
+					mouseUp: function (e, s) {
+						s.seek(1);
+					},
+					mouseOut: function (s) {
+						s.seek(0);
+						s.parentFrame.parentLayer.parentSymbol.layers[2].keyframes[0].options.x = 650;
+					}
+				}
+			}
+		},
+		"can-btn": {
+			"sym": {
+				"layers": [
+					{
+						"length": 3,
+						"keyframes": [
+							{
+								"frame": 0,
+								"x": 0,
+								"y": 0,
+								"source": "can-reg",
+								code: function (s) {
+									s.pause();
+								}
+							},
+							{
+								"frame": 1,
+								"x": 0,
+								"y": 0,
+								"source": "can-over"
+							},
+							{
+								"frame": 2,
+								"x": 0,
+								"y": 0,
+								"source": "can-down"
+							}
+						]
+					}
+				],
+				bounds: new Rectangle(300, 190),
+				callbacks: {
+					mouseMove: function (e, s) {
+						if (s.isMouseDown) {
+							s.seek(2);
+						} else {
+							s.seek(1)
+						}
+						s.parentFrame.parentLayer.parentSymbol.layers[2].keyframes[0].options.x = -750;
+						s.parentFrame.parentLayer.parentSymbol.layers[2].keyframes[0].options.y = -300;
+					},
+					mouseDown: function (e, s) {
+						s.seek(2);
+					},
+					mouseUp: function (e, s) {
+						s.seek(1);
+					},
+					mouseOut: function (s) {
+						s.seek(0);
+						s.parentFrame.parentLayer.parentSymbol.layers[2].keyframes[0].options.x = 650;
+					}
+				}
+			}
+		}
+	},
+	"layers": [
+		{
+			"length": 1,
+			"keyframes": [
+				{
+					"frame": 0,
+					"source": "aus-btn",
+					"subSymInstance": "aus_btn",
+					"x": 15,
+					"y": 5
+				}
+			]
+		},
+		{
+			"length": 1,
+			"keyframes": [
+				{
+					"frame": 0,
+					"source": "can-btn",
+					"subSymInstance": "can_btn",
+					"x": 335,
+					"y": 5
+				}
+			]
+		},
+		{
+			"length": 1,
+			"keyframes": [
+				{
+					"frame": 0,
+					"source": "map_mc",
+					"subSymPlay": 0,
+					"x": 650,
+					"y": 0
+				}
+			]
+		},
+		{
+			"length": 1,
+			"keyframes": [
+				{
+					"frame": 0,
+					"source": "gradient",
+					"x": 0,
+					"y": 0
+				}
+			]
+		}
+	]
+}

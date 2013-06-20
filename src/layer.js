@@ -36,6 +36,9 @@ layer.prototype.nextFrame = function () {
 layer.prototype.goto = function (frameNumber) {
 	this.currentFrame = frameNumber;
 	var key = this.getCurrentKeyframe();
+	if (key.options.frame == this.currentFrame && key.options.code) {
+		key.options.code(this.parentSymbol);
+	}
 	if (key.type == 'symbol' && !key.options.subSymInstance) {
 	    key.source.seek(calcSymbolFrame(key, frameNumber));
 	}

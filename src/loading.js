@@ -34,9 +34,6 @@ function loadswigfile() {
     	        eval('data = '+fr.result);
     	        if (data) {
     	            data.instances = {};
-    	            var deploy = document.getElementById('swig-deploy');
-    	            deploy.innerHTML = '';
-                    area = new workArea({width:data.width,height:data.height}, {}, deploy);
     	            resolveLibrary();
     	        }
     	    }
@@ -45,46 +42,50 @@ function loadswigfile() {
 	}
 }
 
-var imgdone = false;
-
 function resolveLibrary() {
-    if (!imgdone) {
-        var innerImgDone = true;
-        for (var i in data.library) {
-            if (typeof data.library[i].image == 'string') {
-                var img = document.createElement('img');
-                img.src = data.library[i].image;
-                data.library[i].image = img;
-                (function (libEntry) {                          //closures heck yeah!
-                    libEntry.image.onload = function () {
-                        libEntry.loaded = true;
-                        resolveLibrary();
-                    }
-                }(data.library[i]));
-				innerImgDone = false;
-            } else if (!data.library[i].loaded && data.library[i].image) {
-                innerImgDone = false;
-            } else if (typeof data.library[i].audio == 'string') {
-				var aud = document.createElement('audio');
-                aud.src = data.library[i].audio;
-                data.library[i].audio = aud;
-                (function (libEntry) {                          //closures heck yeah!
-                    libEntry.audio.addEventListener('canplaythrough', function () {		//duplicate code HECK YEAH!!
-                        libEntry.loaded = true;
-                        resolveLibrary();
-                    }, false);
-                }(data.library[i]));
-				innerImgDone = false;
-			} else if (!data.library[i].loaded && data.library[i].audio) {
-				innerImgDone = false;
-			}
-        }
-        imgdone = innerImgDone;
-    }
-    if (imgdone) {
-        data.symbol = loadSymbolFromTree(data);
-        run(data.symbol, area);
-    }
+	remainingLoads = 0;
+	for (var i in data.library) {
+		if (typeof data.library[i].image == 'string') {
+			var img = document.createElement('img');
+			img.src = data.library[i].image;
+			data.library[i].image = img;
+			(function (libEntry) {                          //closures heck yeah!
+				libEntry.image.onload = function () {
+					libEntry.loaded = true;
+					registerLoaded();
+				}
+			}(data.library[i]));
+			remainingLoads++;
+		} else if (typeof data.library[i].audio == 'string') {
+			var aud = document.createElement('audio');
+			aud.src = data.library[i].audio;
+			data.library[i].audio = aud;
+			(function (libEntry) {                          //closures heck yeah!
+				libEntry.audio.addEventListener('canplaythrough', function () {		//duplicate code HECK YEAH!!
+					libEntry.loaded = true;
+					registerLoaded();
+				}, false);
+			}(data.library[i]));
+			remainingLoads++;
+		}
+	}
+	if (remainingLoads == 0) {
+		remainingLoads++;
+		registerLoaded();
+	}
+}
+
+var remainingLoads = 0;
+
+function registerLoaded() {
+	remainingLoads--;
+	if (remainingLoads == 0) {
+		data.symbol = loadSymbolFromTree(data);
+		var deploy = document.getElementById('swig-deploy');
+		deploy.innerHTML = '';
+		area = new workArea({width:data.width,height:data.height}, data.symbol, deploy);
+		run(data.symbol, area);
+	}
 }
 
 function loadSymbolFromTree(tree) {
@@ -109,6 +110,9 @@ function loadSymbolFromTree(tree) {
                 }
             }
             frames[frames.length] = new frame(getSource(tree.layers[i].keyframes[j]), tree.layers[i].keyframes[j]);
+            if (frames[frames.length-1].type == 'symbol') {
+				frames[frames.length-1].source.parentFrame = frames[frames.length-1];
+			}
         }
         layers[layers.length] = new layer(frames, tree.layers[i].length);
     }
@@ -122,7 +126,7 @@ function loadSymbolFromTree(tree) {
 			console.log('Bad audio call '+tree.audio[i].elem.toString());
 		}
     }
-    return new symbol(layers, tree.audio);
+    return new symbol(layers, tree.audio, tree.callbacks, tree.bounds);
 }
 
 function getSource(keyframe) {

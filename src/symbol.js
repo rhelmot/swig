@@ -1,6 +1,11 @@
-function symbol(layers, audios) {
+function symbol(layers, audios, callbacks, bounds) {
 	this.layers = layers;
 	this.audios = audios;
+	if (typeof callbacks == 'undefined') {
+		callbacks = {};
+	}
+	this.callbacks = callbacks;
+	this.bounds = bounds;
 	this.length = 0;
 	for (var i = 0; i < layers.length; i++) {
 	    this.layers[i].parentSymbol = this;
@@ -95,3 +100,94 @@ symbol.prototype.draw = function (dest) {
         this.layers[i].draw(dest);
     }
 };
+
+symbol.prototype.onmousedown = function (e) {
+	this.isMouseDown = true;
+	var used = false;
+	if (typeof this.callbacks.mouseDown == 'function') {
+		this.callbacks.mouseDown(e, this);
+		used = true;
+	}
+	for (var i = 0; i < this.layers.length; i++) {
+		var key = this.layers[i].getCurrentKeyframe();
+		if (key.type == 'symbol' && key.source.bounds) {
+			var translated = reverseMatrixTransform(e, key.options);
+			if (key.source.bounds.hitPoint(translated.x, translated.y) && key.source.onmousedown(translated)) {
+				used = true;
+				break;
+			}
+		}
+	}
+	return used;
+};
+
+symbol.prototype.onmouseup = function (e) {
+	this.isMouseDown = false;
+	var used = false;
+	if (typeof this.callbacks.mouseUp == 'function') {
+		this.callbacks.mouseUp(e, this);
+		used = true;
+	}
+	for (var i = 0; i < this.layers.length; i++) {
+		var key = this.layers[i].getCurrentKeyframe();
+		if (key.type == 'symbol' && key.source.bounds) {
+			var translated = reverseMatrixTransform(e, key.options);
+			if (key.source.bounds.hitPoint(translated.x, translated.y) && key.source.onmouseup(translated)) {
+				used = true;
+				break;
+			}
+		}
+	}
+	return used;
+};
+
+symbol.prototype.onmousemove = function (e) {
+	if (typeof this.callbacks.mouseMove == 'function') {
+		this.callbacks.mouseMove(e, this);
+		used = true;
+	}
+	for (var i = 0; i < this.layers.length; i++) {
+		var key = this.layers[i].getCurrentKeyframe();
+		if (key.type == 'symbol' && key.source.bounds) {
+			var translated = reverseMatrixTransform(e, key.options);
+			if (key.source.bounds.hitPoint(translated.x, translated.y)) {
+				key.source.isMouseOn = true;
+				key.source.onmousemove(translated)
+			} else if (key.source.isMouseOn) {
+				key.source.isMouseOn = false;
+				key.source.onmouseout()
+			}
+		}
+	}
+};
+
+symbol.prototype.onmouseout = function () {
+	this.isMouseDown = false;
+	if (typeof this.callbacks.mouseMove == 'function') {
+		this.callbacks.mouseOut(this);
+		used = true;
+	}
+	for (var i = 0; i < this.layers.length; i++) {
+		var key = this.layers[i].getCurrentKeyframe();
+		if (key.type == 'symbol' && key.source.isMouseOn) {
+			key.source.isMouseOn = false;
+			key.source.onmouseout();
+		}
+	}
+};
+
+function matrixTransform(point, options) {
+	var x = (point.x*options.scaleX) + (point.y*options.skewY) + options.x;
+	var y = (point.y*options.scaleY) + (point.x*options.skewX) + options.y;
+	var rx = (x*cos(options.rot)) + (y*sin(options.rot)) - options.anchorX;
+	var ry = (y*cos(options.rot)) + (x*-sin(options.rot)) - options.anchorY;
+	return {x: rx, y: ry};
+}
+
+function reverseMatrixTransform(point, options) {
+	var x = (point.x*cos(-options.rot)) + (point.y*sin(-options.rot)) + options.anchorX;
+	var y = (point.y*cos(-options.rot)) + (point.x*-sin(-options.rot)) + options.anchorY;
+	var rx = (x/options.scaleX) - (y*options.skewY) - options.x;
+	var ry = (y/options.scaleY) - (x*options.skewX) - options.y;
+	return {x: rx, y: ry};
+}

@@ -6,7 +6,7 @@ function workArea(options, callbacks, dest) {
 	    callbacks = {};
 	}
 	this.canvas = document.createElement('canvas');
-	this.context = this.canvas.getContext('2d')
+	this.context = this.canvas.getContext('2d');
 	var dummy = {};
 	var props = {
         left: {bounds:document.body.clientWidth, default: 0, dest: this.canvas.style},
@@ -27,14 +27,22 @@ function workArea(options, callbacks, dest) {
 	}
 	this.origin = {x:dummy.originX, y:dummy.originY};
 	this.tpoints = {};
-	this.canvas.onmousedown = callbacks.onmousedown;
-	this.canvas.onmousemove = callbacks.onmousemove;
-	this.canvas.onmouseup = callbacks.onmouseup;
-	this.canvas.addEventListener('touchstart', callbacks.ontouchdown, false);
-	this.canvas.addEventListener('touchmove', callbacks.ontouchmove, false);
-	this.canvas.addEventListener('touchend', callbacks.ontouchup, false);
+	function callbackFactory(src, func) {
+		if (typeof src[func] == 'function') {
+			return function (e) {
+				return src[func](fixmouseevents(e));
+			};
+		} else {
+			return function () {};
+		}
+	}
+	var callbackNames = ['onmousedown', 'onmousemove', 'onmouseup', 'onmouseout'];
+	for (var i = 0; i < callbackNames.length; i++) {
+		this.canvas[callbackNames[i]] = callbackFactory(callbacks, callbackNames[i]);
+	}
 	this.canvas.tabIndex = 1;
 	this.canvas.onselectstart = function () { return false; };
+	this.canvas.style.outline = 'none';
 	this.canvas.workArea = this;									//awwww yeah recursion
 	this.context.setTransform(1,0,0,1,this.origin.x,this.origin.y);
 	dest.appendChild(this.canvas);
@@ -87,3 +95,21 @@ workArea.prototype.drawX = function (centerX, centerY, radius, color) {
 	this.context.lineTo(centerX + radius, centerY - radius);
 	this.context.stroke();
 };
+
+workArea.prototype.onmousedown = function (e) {
+	
+};
+
+workArea.prototype.onmouseup = function (e) {
+	
+};
+
+workArea.prototype.onmouseout = function (e) {
+	
+};
+
+workArea.prototype.onmousemove = function (e) {
+	
+};
+
+
